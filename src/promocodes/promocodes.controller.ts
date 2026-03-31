@@ -17,7 +17,6 @@ export class PromocodesController {
   constructor(private readonly promocodesService: PromocodesService) {}
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   create(@Body() dto: CreatePromocodeDto): Promise<Promocode> {
     return this.promocodesService.create(dto);
   }

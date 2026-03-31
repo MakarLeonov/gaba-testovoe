@@ -1,12 +1,21 @@
 import { Transform } from "class-transformer";
-import { IsDateString, IsInt, IsString, Max, Min, MinLength } from "class-validator";
+import {
+  IsDateString,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from "class-validator";
 
 export class CreatePromocodeDto {
-  @IsString()
-  @MinLength(1)
   @Transform(({ value }: { value: unknown }) =>
     typeof value === "string" ? value.trim().toUpperCase() : value,
   )
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(50)
   code!: string;
 
   @IsInt()

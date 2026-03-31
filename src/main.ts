@@ -4,6 +4,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
@@ -25,7 +26,8 @@ async function bootstrap(): Promise<void> {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  const port = process.env['PORT'] ?? 3000;
+  const config = app.get(ConfigService);
+  const port = config.get<number>('PORT') ?? 3000;
   await app.listen(port, '0.0.0.0');
 }
 
